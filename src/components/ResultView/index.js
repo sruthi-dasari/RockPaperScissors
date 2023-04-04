@@ -14,10 +14,44 @@ import {
 } from './styledComponents'
 
 class ResultView extends Component {
+  state = {
+    result: '',
+  }
+
+  onClickPlayAgain = () => {
+    const {updateGameStatus} = this.props
+    updateGameStatus()
+  }
+
+  checkResults = () => {
+    const {opponentOptionId, selectedOptionId} = this.props
+
+    if (selectedOptionId === 'PAPER' && opponentOptionId === 'ROCK') {
+      this.setState({result: 'YOU WON'})
+    } else if (selectedOptionId === 'SCISSORS' && opponentOptionId === 'ROCK') {
+      this.setState({result: 'YOU LOSE'})
+    } else if (selectedOptionId === 'ROCK' && opponentOptionId === 'PAPER') {
+      this.setState({result: 'YOU LOSE'})
+    } else if (
+      selectedOptionId === 'SCISSORS' &&
+      opponentOptionId === 'PAPER'
+    ) {
+      this.setState({result: 'YOU WON'})
+    } else if (selectedOptionId === 'ROCK' && opponentOptionId === 'SCISSORS') {
+      this.setState({result: 'YOU WON'})
+    } else if (
+      selectedOptionId === 'PAPER' &&
+      opponentOptionId === 'SCISSORS'
+    ) {
+      this.setState({result: 'YOU LOSE'})
+    } else if (selectedOptionId === opponentOptionId) {
+      this.setState({result: 'IT IS DRAW'})
+    }
+  }
+
   render() {
     const {selectedOptionImageUrl, opponentOptionImageUrl} = this.props
-
-    // console.log(selectedOptionImageUrl, opponentOptionImageUrl)
+    const {result} = this.state
     return (
       <ResultViewContainer>
         <OptionsContainer>
@@ -37,8 +71,11 @@ class ResultView extends Component {
           </YouAndOpponentOptionContainer>
         </OptionsContainer>
         <ResultsContainer>
-          <WinOrLoseText>{}</WinOrLoseText>
-          <PlayAgainButton>PLAY AGAIN</PlayAgainButton>
+          {/* {this.checkResults()} */}
+          <WinOrLoseText>{result}</WinOrLoseText>
+          <PlayAgainButton onClick={this.onClickPlayAgain}>
+            PLAY AGAIN
+          </PlayAgainButton>
         </ResultsContainer>
       </ResultViewContainer>
     )

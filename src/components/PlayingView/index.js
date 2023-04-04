@@ -1,55 +1,76 @@
+import {Component} from 'react'
+
 import {
   PlayingViewContainer,
   RockAndScissorContainer,
   PaperContainer,
+  RockButton,
+  Image,
 } from './styledComponents'
 
 import Option from '../Option'
 
-const PlayingView = props => {
-  const {choicesList, updateSelectedAndOpponentOption} = props
+class PlayingView extends Component {
+  state = {rockImageUrl: '', scissorImageUrl: '', paperImageUrl: ''}
 
-  const setSelectedAndOpponentOption = id => {
+  setSelectedAndOpponentOption = selectedId => {
+    const {choicesList, updateSelectedAndOpponentOption} = this.props
+
     const randomIndex = Math.floor(Math.random() * choicesList.length)
     const randomOption = choicesList[randomIndex]
 
-    const selectedOption = choicesList.find(eachItem => eachItem.id === id)
-    const {imageUrl} = selectedOption
+    const selectedOption = choicesList.find(
+      eachItem => eachItem.id === selectedId,
+    )
+    const {imageUrl, id} = selectedOption
     const selectedOptionImageUrl = imageUrl
-    updateSelectedAndOpponentOption(selectedOptionImageUrl, randomOption)
+    const selectedOptionId = id
+    updateSelectedAndOpponentOption(
+      selectedOptionImageUrl,
+      selectedOptionId,
+      randomOption,
+    )
   }
 
-  return (
-    <PlayingViewContainer>
-      <RockAndScissorContainer>
-        {choicesList.map(eachItem => {
-          if (eachItem.id !== 'PAPER') {
-            return (
-              <Option
-                optionDetails={eachItem}
-                key={eachItem.id}
-                setSelectedAndOpponentOption={setSelectedAndOpponentOption}
-              />
-            )
-          }
-          return null
-        })}
-      </RockAndScissorContainer>
-      <PaperContainer>
-        {choicesList.map(eachItem => {
-          if (eachItem.id !== 'ROCK' && eachItem.id !== 'SCISSORS') {
-            return (
-              <Option
-                optionDetails={eachItem}
-                setSelectedAndOpponentOption={setSelectedAndOpponentOption}
-                key={eachItem.id}
-              />
-            )
-          }
-          return null
-        })}
-      </PaperContainer>
-    </PlayingViewContainer>
-  )
+  render() {
+    const {choicesList} = this.props
+
+    return (
+      <PlayingViewContainer>
+        <RockAndScissorContainer>
+          {choicesList.map(eachItem => {
+            if (eachItem.id === 'ROCK' || eachItem.id === 'SCISSORS') {
+              return (
+                <Option
+                  optionDetails={eachItem}
+                  setSelectedAndOpponentOption={
+                    this.setSelectedAndOpponentOption
+                  }
+                  key={eachItem.id}
+                />
+              )
+            }
+            return null
+          })}
+        </RockAndScissorContainer>
+        <PaperContainer>
+          {choicesList.map(eachItem => {
+            if (eachItem.id !== 'ROCK' && eachItem.id !== 'SCISSORS') {
+              return (
+                <Option
+                  optionDetails={eachItem}
+                  setSelectedAndOpponentOption={
+                    this.setSelectedAndOpponentOption
+                  }
+                  key={eachItem.id}
+                />
+              )
+            }
+            return null
+          })}
+        </PaperContainer>
+      </PlayingViewContainer>
+    )
+  }
 }
 export default PlayingView

@@ -1,10 +1,11 @@
 import {OptionButton, Image} from './styledComponents'
 
 const Option = props => {
-  const {optionDetails, setSelectedAndOpponentOption} = props
+  const {optionDetails, setSelectedAndOpponentOption, checkResults} = props
   const {id, imageUrl} = optionDetails
 
   const onClickOption = () => {
+    checkResults(id)
     setSelectedAndOpponentOption(id)
   }
 

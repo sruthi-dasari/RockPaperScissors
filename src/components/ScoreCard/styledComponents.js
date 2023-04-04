@@ -2,11 +2,12 @@ import styled from 'styled-components'
 
 export const ScoreCardContainer = styled.div`
   border: 2px solid #ffffff;
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 15px;
+  padding: 30px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
+  width: 100%;
 `
 
 export const OptionNamesContainer = styled.div`
@@ -38,7 +39,7 @@ export const ScoreHeading = styled.p`
   margin: 5px;
 `
 
-export const ScoreValue = styled.h1`
+export const ScoreValue = styled.p`
   font-family: 'Roboto';
   font-size: 60px;
   color: #223a5f;

@@ -26,20 +26,31 @@ const gameStatusConstants = {
 class Game extends Component {
   state = {
     gameStatus: gameStatusConstants.play,
-    opponentOption: '',
-    // selectedOption: '',
+    selectedOptionId: '',
+    opponentOptionId: '',
     selectedOptionImageUrl: '',
     opponentOptionImageUrl: '',
   }
 
-  updateSelectedAndOpponentOption = (selectedOptionImageUrl, randomOption) => {
-    const {imageUrl} = randomOption
+  updateGameStatus = () => {
+    this.setState({gameStatus: gameStatusConstants.play})
+  }
+
+  updateSelectedAndOpponentOption = (
+    selectedOptionImageUrl,
+    selectedOptionId,
+    randomOption,
+  ) => {
+    const {imageUrl, id} = randomOption
+    const {opponentOptionId} = id
 
     const opponentOptionImageUrl = imageUrl
     // console.log(opponentOptionImageUrl)
     this.setState({
       selectedOptionImageUrl,
       opponentOptionImageUrl,
+      opponentOptionId,
+      selectedOptionId,
       gameStatus: gameStatusConstants.showResult,
     })
   }
@@ -50,6 +61,8 @@ class Game extends Component {
       gameStatus,
       opponentOptionImageUrl,
       selectedOptionImageUrl,
+      opponentOptionId,
+      selectedOptionId,
     } = this.state
 
     switch (gameStatus) {
@@ -67,6 +80,9 @@ class Game extends Component {
           <ResultView
             opponentOptionImageUrl={opponentOptionImageUrl}
             selectedOptionImageUrl={selectedOptionImageUrl}
+            opponentOptionId={opponentOptionId}
+            selectedOptionId={selectedOptionId}
+            updateGameStatus={this.updateGameStatus}
           />
         )
       default:
