@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+// import {RiCloseLine} from 'react-icons/ri'
+
 export const GameContainer = styled.div`
   background-color: #223a5f;
   padding: 10px;
@@ -48,7 +50,8 @@ export const RulesImageCard = styled.img`
   height: 250px;
   width: 280px;
 `
-// export const RiCloseLine = styled.RiCloseLine`
-//   height: 50px;
-//   width: 50px;
+// export const CloseIcon = styled(RiCloseLine)`
+//   height: 18px;
+//   width: 18px;
+//   color: #223a5f;
 // `

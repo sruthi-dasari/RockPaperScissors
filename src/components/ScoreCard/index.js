@@ -1,24 +1,31 @@
 import {
-  OptionName,
+  OptionsName,
   ScoreCardContainer,
   OptionNamesContainer,
   ScoreContainer,
   ScoreHeading,
   ScoreValue,
 } from './styledComponents'
+import GameContext from '../../context/GameContext'
 
 const ScoreCard = () => (
-  <ScoreCardContainer>
-    <OptionNamesContainer>
-      <OptionName>ROCK</OptionName>
-      <OptionName>PAPER</OptionName>
-      <OptionName>SCISSORS</OptionName>
-    </OptionNamesContainer>
-    <ScoreContainer>
-      <ScoreHeading>Score</ScoreHeading>
-      <ScoreValue>0</ScoreValue>
-    </ScoreContainer>
-  </ScoreCardContainer>
+  <GameContext.Consumer>
+    {value => {
+      const {score} = value
+
+      return (
+        <ScoreCardContainer>
+          <OptionNamesContainer>
+            <OptionsName>ROCK PAPER SCISSORS</OptionsName>
+          </OptionNamesContainer>
+          <ScoreContainer>
+            <ScoreHeading>Score</ScoreHeading>
+            <ScoreValue>{score}</ScoreValue>
+          </ScoreContainer>
+        </ScoreCardContainer>
+      )
+    }}
+  </GameContext.Consumer>
 )
 
 export default ScoreCard

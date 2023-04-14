@@ -16,8 +16,3 @@ export const PaperContainer = styled.div`
   display: flex;
   justify-content: center;
 `
-export const RockButton = styled.button``
-export const ScissorButton = styled.button``
-export const PaperButton = styled.button``
-
-export const Image = styled.img``

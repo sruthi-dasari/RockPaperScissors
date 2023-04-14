@@ -12,9 +12,10 @@ export const ScoreCardContainer = styled.div`
 
 export const OptionNamesContainer = styled.div`
   background: transparent;
+  max-width: 100px;
 `
 
-export const OptionName = styled.p`
+export const OptionsName = styled.h1`
   font-family: 'Bree Serif';
   font-size: 28px;
   color: #ffffff;

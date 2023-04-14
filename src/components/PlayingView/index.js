@@ -1,76 +1,76 @@
-import {Component} from 'react'
-
 import {
   PlayingViewContainer,
   RockAndScissorContainer,
   PaperContainer,
-  RockButton,
-  Image,
 } from './styledComponents'
 
 import Option from '../Option'
+import GameContext from '../../context/GameContext'
 
-class PlayingView extends Component {
-  state = {rockImageUrl: '', scissorImageUrl: '', paperImageUrl: ''}
+const PlayingView = props => (
+  <GameContext.Consumer>
+    {value => {
+      const {setOpponentOption} = value
 
-  setSelectedAndOpponentOption = selectedId => {
-    const {choicesList, updateSelectedAndOpponentOption} = this.props
+      const {choicesList} = props
 
-    const randomIndex = Math.floor(Math.random() * choicesList.length)
-    const randomOption = choicesList[randomIndex]
+      const getRandomOptionId = () => {
+        const randomIndex = Math.floor(Math.random() * choicesList.length)
+        const randomOption = choicesList[randomIndex]
+        const {id} = randomOption
+        const randomOptionId = id
+        setOpponentOption(randomOptionId)
+      }
 
-    const selectedOption = choicesList.find(
-      eachItem => eachItem.id === selectedId,
-    )
-    const {imageUrl, id} = selectedOption
-    const selectedOptionImageUrl = imageUrl
-    const selectedOptionId = id
-    updateSelectedAndOpponentOption(
-      selectedOptionImageUrl,
-      selectedOptionId,
-      randomOption,
-    )
-  }
+      return (
+        <PlayingViewContainer>
+          <RockAndScissorContainer>
+            {choicesList.map(eachItem => {
+              if (eachItem.id === 'ROCK') {
+                return (
+                  <Option
+                    optionDetails={eachItem}
+                    key={eachItem.id}
+                    getRandomOptionId={getRandomOptionId}
+                    data-testid="rockButton"
+                  />
+                )
+              }
+              return null
+            })}
+            {choicesList.map(eachItem => {
+              if (eachItem.id === 'SCISSORS') {
+                return (
+                  <Option
+                    optionDetails={eachItem}
+                    key={eachItem.id}
+                    getRandomOptionId={getRandomOptionId}
+                    data-testid="scissorsButton"
+                  />
+                )
+              }
+              return null
+            })}
+          </RockAndScissorContainer>
+          <PaperContainer>
+            {choicesList.map(eachItem => {
+              if (eachItem.id === 'PAPER') {
+                return (
+                  <Option
+                    optionDetails={eachItem}
+                    getRandomOptionId={getRandomOptionId}
+                    key={eachItem.id}
+                    data-testid="paperButton"
+                  />
+                )
+              }
+              return null
+            })}
+          </PaperContainer>
+        </PlayingViewContainer>
+      )
+    }}
+  </GameContext.Consumer>
+)
 
-  render() {
-    const {choicesList} = this.props
-
-    return (
-      <PlayingViewContainer>
-        <RockAndScissorContainer>
-          {choicesList.map(eachItem => {
-            if (eachItem.id === 'ROCK' || eachItem.id === 'SCISSORS') {
-              return (
-                <Option
-                  optionDetails={eachItem}
-                  setSelectedAndOpponentOption={
-                    this.setSelectedAndOpponentOption
-                  }
-                  key={eachItem.id}
-                />
-              )
-            }
-            return null
-          })}
-        </RockAndScissorContainer>
-        <PaperContainer>
-          {choicesList.map(eachItem => {
-            if (eachItem.id !== 'ROCK' && eachItem.id !== 'SCISSORS') {
-              return (
-                <Option
-                  optionDetails={eachItem}
-                  setSelectedAndOpponentOption={
-                    this.setSelectedAndOpponentOption
-                  }
-                  key={eachItem.id}
-                />
-              )
-            }
-            return null
-          })}
-        </PaperContainer>
-      </PlayingViewContainer>
-    )
-  }
-}
 export default PlayingView

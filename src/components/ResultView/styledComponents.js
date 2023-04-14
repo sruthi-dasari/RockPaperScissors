@@ -36,12 +36,14 @@ export const OpponentOptionImage = styled.img`
 
 export const ResultsContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   margin: 40px;
 `
 
-export const WinOrLoseText = styled.h1`
-  font-size: 45px;
+export const WinOrLoseText = styled.p`
+  font-size: 35px;
   font-family: 'Roboto';
   color: #ffffff;
 `
@@ -53,7 +55,6 @@ export const PlayAgainButton = styled.button`
   font-weight: 600;
   border-radius: 12px;
   border: none;
-  align-self: flex-end;
   height: 55px;
   width: 200px;
 `
