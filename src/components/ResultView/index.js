@@ -13,13 +13,17 @@ import {
 
 import GameContext from '../../context/GameContext'
 
-const ResultView = props => (
+const ResultView = () => (
   <GameContext.Consumer>
     {value => {
-      const {checkResults, result, updateGameStatus} = value
+      const {
+        checkResults,
+        result,
+        updateGameStatus,
+        yourOptionImageUrl,
+        opponentOptionImageUrl,
+      } = value
       checkResults()
-
-      const {selectedOptionImageUrl, opponentOptionImageUrl} = props
 
       const onClickPlayAgain = () => {
         updateGameStatus()
@@ -30,10 +34,7 @@ const ResultView = props => (
           <OptionsContainer>
             <YouAndOpponentOptionContainer>
               <YouText>YOU</YouText>
-              <SelectedOptionImage
-                src={selectedOptionImageUrl}
-                alt="your choice"
-              />
+              <SelectedOptionImage src={yourOptionImageUrl} alt="your choice" />
             </YouAndOpponentOptionContainer>
             <YouAndOpponentOptionContainer>
               <OpponentText>OPPONENT</OpponentText>
