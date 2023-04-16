@@ -10,6 +10,7 @@ import GameContext from '../../context/GameContext'
 const PlayingView = props => (
   <GameContext.Consumer>
     {value => {
+      console.log('In PlayingView component')
       const {setOpponentOption} = value
 
       const {choicesList} = props
@@ -19,7 +20,7 @@ const PlayingView = props => (
         const randomOption = choicesList[randomIndex]
         const {id} = randomOption
         const randomOptionId = id
-        setOpponentOption(randomOptionId)
+        setOpponentOption({randomOptionId})
       }
 
       return (
