@@ -21,31 +21,43 @@ import {
   //   CloseIcon,
 } from './styledComponents'
 
-// const gameStatusConstants = {
-//   play: 'PLAY',
-//   showResult: 'SHOW_RESULT',
-// }
-
 class Game extends Component {
   state = {
     showResult: false,
-    selectedOptionImageUrl: '',
-    opponentOptionImageUrl: '',
     score: 0,
     result: '',
     yourOptionId: '',
     opponentOptionId: '',
+    yourOptionImageUrl: '',
+    opponentOptionImageUrl: '',
+  }
+
+  updateGameStatus = () => {
+    console.log('In updateGameStatus()')
+    this.setState(prevState => ({showResult: !prevState.showResult}))
   }
 
   setYourOption = id => {
-    this.setState({yourOptionId: id})
+    console.log('In setYourOption()')
+    const {choicesList} = this.props
+    console.log(choicesList)
+    const yourOption = choicesList.find(eachItem => eachItem.id === id)
+    console.log(yourOption)
+    const {imageUrl} = yourOption
+    this.setState({yourOptionId: id, yourOptionImageUrl: imageUrl})
   }
 
   setOpponentOption = id => {
-    this.setState({opponentOptionId: id})
+    console.log('In setOpponentOption()')
+    const {choicesList} = this.props
+    const opponentOption = choicesList.find(eachItem => eachItem.id === id)
+    console.log(opponentOption)
+    const {imageUrl} = opponentOption
+    this.setState({opponentOptionId: id, opponentOptionImageUrl: imageUrl})
   }
 
   checkResults = () => {
+    console.log('In checkResults()')
     const {yourOptionId, opponentOptionId} = this.state
     if (yourOptionId === 'PAPER' && opponentOptionId === 'ROCK') {
       this.setState({result: 'YOU WON'}, this.updateScore)
@@ -65,6 +77,7 @@ class Game extends Component {
   }
 
   updateScore = result => {
+    console.log('In updateScore()')
     if (result === 'YOU WON') {
       this.setState(prevState => ({score: prevState.score + 1}))
     } else if (result === 'YOU LOSE') {
@@ -74,18 +87,18 @@ class Game extends Component {
     }
   }
 
-  updateGameStatus = () => {
-    this.setState(prevState => ({showResult: !prevState.showResult}))
-  }
-
   render() {
+    console.log('In game render()')
+
     const {
       score,
       result,
       showResult,
       opponentOptionImageUrl,
-      selectedOptionImageUrl,
+      yourOptionImageUrl,
     } = this.state
+
+    console.log(`showResult: ${showResult}`)
 
     const {choicesList} = this.props
     return (
@@ -93,6 +106,8 @@ class Game extends Component {
         value={{
           score,
           result,
+          yourOptionImageUrl,
+          opponentOptionImageUrl,
           checkResults: this.checkResults,
           updateScore: this.updateScore,
           setYourOption: this.setYourOption,
@@ -103,10 +118,7 @@ class Game extends Component {
         <GameContainer>
           <ScoreCard />
           {showResult ? (
-            <ResultView
-              opponentOptionImageUrl={opponentOptionImageUrl}
-              selectedOptionImageUrl={selectedOptionImageUrl}
-            />
+            <ResultView />
           ) : (
             <PlayingView choicesList={choicesList} />
           )}
