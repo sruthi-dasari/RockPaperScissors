@@ -10,7 +10,9 @@ const Option = props => (
       const {id, imageUrl} = optionDetails
 
       const onClickOption = () => {
-        setYourOption(id)
+        console.log('In onClickOption()')
+        console.log(`clicked option id is: ${id}`)
+        setYourOption({id})
         getRandomOptionId()
         updateGameStatus()
       }
