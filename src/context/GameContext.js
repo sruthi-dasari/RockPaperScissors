@@ -6,6 +6,8 @@ const GameContext = React.createContext({
   updateScore: () => {},
   setYourOption: () => {},
   setOpponentOption: () => {},
+  setYourOptionImageUrl: () => {},
+  setOpponentOptionImageUrl: () => {},
   updateGameStatus: () => {},
 })
 
