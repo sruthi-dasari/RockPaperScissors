@@ -32,33 +32,64 @@ class Game extends Component {
     opponentOptionImageUrl: '',
   }
 
+  resetResult = () => {
+    this.setState({result: ''})
+  }
+
   updateGameStatus = () => {
     console.log('In updateGameStatus()')
     this.setState(prevState => ({showResult: !prevState.showResult}))
   }
 
-  setYourOption = id => {
+  setYourOption = idObject => {
     console.log('In setYourOption()')
     const {choicesList} = this.props
-    console.log(choicesList)
-    const yourOption = choicesList.find(eachItem => eachItem.id === id)
-    console.log(yourOption)
-    const {imageUrl} = yourOption
+    // console.log(choicesList)
+    // console.log(idObject)
+    const yourOption = choicesList.find(eachItem => eachItem.id === idObject.id)
+    // console.log(yourOption)
+    const {id, imageUrl} = yourOption
     this.setState({yourOptionId: id, yourOptionImageUrl: imageUrl})
   }
 
-  setOpponentOption = id => {
+  setOpponentOption = idObject => {
     console.log('In setOpponentOption()')
     const {choicesList} = this.props
-    const opponentOption = choicesList.find(eachItem => eachItem.id === id)
-    console.log(opponentOption)
-    const {imageUrl} = opponentOption
+    console.log(idObject)
+    const opponentOption = choicesList.find(
+      eachItem => eachItem.id === idObject.randomOptionId,
+    )
+    // console.log(opponentOption)
+    const {id, imageUrl} = opponentOption
     this.setState({opponentOptionId: id, opponentOptionImageUrl: imageUrl})
+  }
+
+  updateScore = () => {
+    const {score, result} = this.state
+    console.log('In updateScore()')
+    console.log(`score: ${score}`)
+    console.log(result)
+    if (result === 'YOU WON') {
+      const newScore = score + 1
+      console.log(`newScore: ${newScore}`)
+      this.setState({score: newScore})
+      //   this.setState(prevState => ({score: prevState.score + 1}))
+    } else if (result === 'YOU LOSE') {
+      const newScore = score - 1
+      this.setState({score: newScore})
+      //   this.setState(prevState => ({score: prevState.score - 1}))
+    } else {
+      const newScore = score
+      this.setState({score: newScore})
+      //   this.setState(prevState => ({score: prevState.score}))
+    }
   }
 
   checkResults = () => {
     console.log('In checkResults()')
-    const {yourOptionId, opponentOptionId} = this.state
+
+    const {yourOptionId, opponentOptionId, result} = this.state
+    console.log(yourOptionId, opponentOptionId)
     if (yourOptionId === 'PAPER' && opponentOptionId === 'ROCK') {
       this.setState({result: 'YOU WON'}, this.updateScore)
     } else if (yourOptionId === 'SCISSORS' && opponentOptionId === 'ROCK') {
@@ -76,17 +107,6 @@ class Game extends Component {
     }
   }
 
-  updateScore = result => {
-    console.log('In updateScore()')
-    if (result === 'YOU WON') {
-      this.setState(prevState => ({score: prevState.score + 1}))
-    } else if (result === 'YOU LOSE') {
-      this.setState(prevState => ({score: prevState.score - 1}))
-    } else {
-      this.setState(prevState => ({score: prevState.score}))
-    }
-  }
-
   render() {
     console.log('In game render()')
 
@@ -98,6 +118,8 @@ class Game extends Component {
       yourOptionImageUrl,
     } = this.state
 
+    console.log(`score: ${score}`)
+    console.log(result)
     console.log(`showResult: ${showResult}`)
 
     const {choicesList} = this.props
@@ -113,10 +135,12 @@ class Game extends Component {
           setYourOption: this.setYourOption,
           setOpponentOption: this.setOpponentOption,
           updateGameStatus: this.updateGameStatus,
+          resetResult: this.resetResult,
         }}
       >
         <GameContainer>
           <ScoreCard />
+
           {showResult ? (
             <ResultView />
           ) : (
