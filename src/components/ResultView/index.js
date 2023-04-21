@@ -16,16 +16,23 @@ import GameContext from '../../context/GameContext'
 const ResultView = () => (
   <GameContext.Consumer>
     {value => {
+      console.log('In ResultView component')
       const {
         checkResults,
         result,
         updateGameStatus,
         yourOptionImageUrl,
         opponentOptionImageUrl,
+        resetResult,
       } = value
-      checkResults()
+
+      if (result === '') {
+        checkResults()
+      }
 
       const onClickPlayAgain = () => {
+        console.log('In onClickPlayAgain()')
+        resetResult()
         updateGameStatus()
       }
 
@@ -46,7 +53,7 @@ const ResultView = () => (
           </OptionsContainer>
           <ResultsContainer>
             <WinOrLoseText>{result}</WinOrLoseText>
-            <PlayAgainButton onClick={onClickPlayAgain}>
+            <PlayAgainButton type="button" onClick={onClickPlayAgain}>
               PLAY AGAIN
             </PlayAgainButton>
           </ResultsContainer>
